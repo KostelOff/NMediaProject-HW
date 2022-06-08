@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:padding="12dp">
 
-
     <ImageView
         android:id="@+id/avatar"
         android:layout_width="wrap_content"
@@ -31,7 +30,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="Нетология. Университет интернет-профессий" />
-
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/date"
@@ -86,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:paddingTop="3dp"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@id/likes"
         app:layout_constraintTop_toTopOf="@id/likes"
         tools:text="45" />
@@ -99,10 +97,7 @@
         android:src="@drawable/ic_baseline_chat_bubble_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/reply"
-        app:layout_constraintStart_toEndOf="@id/likes"
-
-
-        />
+        app:layout_constraintStart_toEndOf="@id/likes" />
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -111,7 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:paddingTop="3dp"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@id/comments"
         app:layout_constraintTop_toTopOf="@id/comments"
         tools:text="16" />
@@ -124,7 +119,7 @@
         android:src="@drawable/ic_baseline_reply_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/countReply"
@@ -132,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:paddingTop="3dp"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@id/reply"
         app:layout_constraintTop_toTopOf="@id/reply"
         tools:text="16" />
@@ -144,7 +139,7 @@
         android:background="#00000000"
         android:src="@drawable/ic_baseline_remove_red_eye_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/countEyes"/>
+        app:layout_constraintEnd_toStartOf="@id/countEyes" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/countEyes"
@@ -152,12 +147,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:paddingTop="3dp"
-        android:textSize="20dp"
-
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/eye"
         tools:text="500" />
 
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/LowerBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="likes, countLikes, comments,
+countComments, reply, countReply, eye, countEyes" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
