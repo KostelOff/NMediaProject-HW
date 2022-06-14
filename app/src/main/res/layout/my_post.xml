@@ -61,29 +61,31 @@
         app:constraint_referenced_ids="avatar, date, options" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textContent"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="4dp"
         android:ellipsize="end"
         app:layout_constraintTop_toBottomOf="@id/horizontal_barrier"
-
         tools:text="@tools:sample/lorem/random" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/likes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:background="#00000000"
         android:src="@drawable/ic_baseline_favorite_border_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textContent" />
+
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/countLikes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:paddingTop="3dp"
+        android:layout_marginStart="4dp"
+        android:paddingTop="4dp"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@id/likes"
         app:layout_constraintTop_toTopOf="@id/likes"
@@ -95,17 +97,17 @@
         android:layout_height="wrap_content"
         android:background="#00000000"
         android:src="@drawable/ic_baseline_chat_bubble_24"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/reply"
-        app:layout_constraintStart_toEndOf="@id/likes" />
+        app:layout_constraintStart_toEndOf="@id/likes"
+        app:layout_constraintTop_toTopOf="@id/likes" />
 
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/countComments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:paddingTop="3dp"
+        android:layout_marginStart="4dp"
+        android:paddingTop="4dp"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@id/comments"
         app:layout_constraintTop_toTopOf="@id/comments"
@@ -117,16 +119,16 @@
         android:layout_height="wrap_content"
         android:background="#00000000"
         android:src="@drawable/ic_baseline_reply_24"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/likes" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/countReply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:paddingTop="3dp"
+        android:layout_marginStart="4dp"
+        android:paddingTop="4dp"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@id/reply"
         app:layout_constraintTop_toTopOf="@id/reply"
@@ -138,27 +140,27 @@
         android:layout_height="wrap_content"
         android:background="#00000000"
         android:src="@drawable/ic_baseline_remove_red_eye_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/countEyes" />
+        app:layout_constraintEnd_toStartOf="@id/countEyes"
+        app:layout_constraintTop_toTopOf="@id/likes" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/countEyes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:paddingTop="3dp"
+        android:layout_marginStart="4dp"
+        android:paddingTop="4dp"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/eye"
         tools:text="500" />
 
     <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/LowerBarrier"
+        android:id="@+id/lowerBarrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="top"
-        app:constraint_referenced_ids="likes, countLikes, comments,
-countComments, reply, countReply, eye, countEyes" />
+        app:constraint_referenced_ids="likes, comments, reply, eye"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
