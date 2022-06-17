@@ -35,14 +35,7 @@ class InMemoryPostRepository : PostRepository {
 
     override fun share() {
         val currentPost = requireNotNull(data.value)
-
-        val sharedPost = currentPost.copy(
-            share = if (currentPost.sharedByMe) {
-                currentPost.share + 1
-            } else {
-                currentPost.share + 0
-            }
-        )
+        val sharedPost = currentPost.copy(share = currentPost.share + 1)
         data.value = sharedPost
     }
 }
