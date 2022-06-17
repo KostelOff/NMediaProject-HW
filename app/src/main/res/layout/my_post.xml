@@ -70,14 +70,14 @@
         tools:text="@tools:sample/lorem/random" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/likes"
+        android:id="@+id/likeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:background="#00000000"
         android:src="@drawable/ic_baseline_favorite_border_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textContent" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -87,8 +87,8 @@
         android:layout_marginStart="4dp"
         android:paddingTop="4dp"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@id/likes"
-        app:layout_constraintTop_toTopOf="@id/likes"
+        app:layout_constraintStart_toEndOf="@id/likeButton"
+        app:layout_constraintTop_toTopOf="@id/likeButton"
         tools:text="45" />
 
     <androidx.appcompat.widget.AppCompatImageButton
@@ -98,8 +98,8 @@
         android:background="#00000000"
         android:src="@drawable/ic_baseline_chat_bubble_24"
         app:layout_constraintEnd_toStartOf="@id/reply"
-        app:layout_constraintStart_toEndOf="@id/likes"
-        app:layout_constraintTop_toTopOf="@id/likes" />
+        app:layout_constraintStart_toEndOf="@id/likeButton"
+        app:layout_constraintTop_toTopOf="@id/likeButton" />
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -121,7 +121,7 @@
         android:src="@drawable/ic_baseline_reply_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/likes" />
+        app:layout_constraintTop_toTopOf="@id/likeButton" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/countReply"
@@ -141,7 +141,7 @@
         android:background="#00000000"
         android:src="@drawable/ic_baseline_remove_red_eye_24"
         app:layout_constraintEnd_toStartOf="@id/countEyes"
-        app:layout_constraintTop_toTopOf="@id/likes" />
+        app:layout_constraintTop_toTopOf="@id/likeButton" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/countEyes"
@@ -159,7 +159,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="top"
-        app:constraint_referenced_ids="likes, comments, reply, eye"
+        app:constraint_referenced_ids="likeButton, comments, reply, eye"
         />
 
 

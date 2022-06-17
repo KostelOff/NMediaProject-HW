@@ -1,9 +1,13 @@
 package ru.netology.nmedia
 
 import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
+import ru.netology.nmedia.data.impl.InMemoryPostRepository
 import ru.netology.nmedia.databinding.MyPostBinding
 import ru.netology.nmedia.post.Post
+import ru.netology.nmedia.viewModel.PostViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,48 +17,33 @@ class MainActivity : AppCompatActivity() {
         val binding = MyPostBinding.inflate(layoutInflater) // раздувание на рабочий kt (MH)
         setContentView(binding.root) // функция для просмотра разработчиком рабочего kt (MH)
 
-        val post = Post(
-            0L, "Нетология. Университет интернет-профессий будущего",
-            "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее. Наша миссия — помочь встать на путь роста и начать цепочку перемен → http://netolo.gy/fyb",
-            "14.06.2022 г. в 14:00"
-        )
-        with(binding) {
-            authorName.text = post.author
-            date.text = post.published
-            textContent.text = post.content
-            if (post.likedByMe) {
-                binding.likes.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-            }
-            countLikes.text = smartCount(post.likes)
-            countReply.text = smartCount(post.share)
-            countComments.text = smartCount(post.countComment)
-            countEyes.text = smartCount(post.countEyesPost)
+        val viewModel by viewModels<PostViewModel>()
 
-            binding.likes.setOnClickListener {
-                post.likedByMe = !post.likedByMe
-                binding.likes.setImageResource(
+        viewModel.data.observe(this) { post ->
+            with(binding) {
+                authorName.text = post.author
+                date.text = post.published
+                textContent.text = post.content
+                countLikes.text = smartCount(post.likes)
+                countReply.text = smartCount(post.share)
+                countComments.text = smartCount(post.countComment)
+                countEyes.text = smartCount(post.countEyesPost)
+
+                binding.likeButton.setImageResource(
                     if (post.likedByMe) {
                         R.drawable.ic_red_baseline_favorite_24
                     } else {
                         R.drawable.ic_baseline_favorite_border_24
                     }
                 )
-                if (post.likedByMe) {
-                    post.likes++
-                } else {
-                    post.likes--
-                }
-                countLikes.text = smartCount(post.likes)
-            }
-            binding.reply.setOnClickListener {
-                post.sharedByMe = !post.sharedByMe
-                if (post.sharedByMe) {
-                    post.share++
-                    countReply.text = smartCount(post.share)
-                }
             }
         }
-
+        binding.reply.setOnClickListener {
+            viewModel.onSharedClicked()
+        }
+        binding.likeButton.setOnClickListener {
+            viewModel.onLikeClicked()
+        }
     }
 
     private fun smartCount(count: Int): String {
