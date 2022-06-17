@@ -29,21 +29,20 @@ class MainActivity : AppCompatActivity() {
                 countComments.text = smartCount(post.countComment)
                 countEyes.text = smartCount(post.countEyesPost)
 
-                binding.reply.setOnClickListener {
-                    viewModel.onSharedClicked()
-                }
-
-                binding.likes.setOnClickListener {
-                    viewModel.onLikeClicked()
-                    binding.likes.setImageResource(
-                        if (post.likedByMe) {
-                            R.drawable.ic_baseline_favorite_border_24
-                        } else {
-                            R.drawable.ic_red_baseline_favorite_24
-                        }
-                    )
-                }
+                binding.likeButton.setImageResource(
+                    if (post.likedByMe) {
+                        R.drawable.ic_red_baseline_favorite_24
+                    } else {
+                        R.drawable.ic_baseline_favorite_border_24
+                    }
+                )
             }
+        }
+        binding.reply.setOnClickListener {
+            viewModel.onSharedClicked()
+        }
+        binding.likeButton.setOnClickListener {
+            viewModel.onLikeClicked()
         }
     }
 

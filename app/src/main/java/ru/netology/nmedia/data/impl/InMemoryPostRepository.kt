@@ -20,43 +20,29 @@ class InMemoryPostRepository : PostRepository {
     )
 
     override fun like() {
-        val currentPost = data.value!!
+        val currentPost = requireNotNull(data.value)
 
         val likedPost = currentPost.copy(
-            likedByMe = !currentPost.likedByMe  // 1
+            likedByMe = !currentPost.likedByMe,
+            likes = if (currentPost.likedByMe) {
+                currentPost.likes - 1
+            } else {
+                currentPost.likes + 1
+            }
         )
-        if (likedPost.likedByMe) {
-            likedPost.likes++
-        } else {
-            likedPost.likes--
-        }
         data.value = likedPost
     }
 
     override fun share() {
-        val currentPost = data.value!!
+        val currentPost = requireNotNull(data.value)
 
         val sharedPost = currentPost.copy(
-            sharedByMe = !currentPost.sharedByMe
+            share = if (currentPost.sharedByMe) {
+                currentPost.share + 1
+            } else {
+                currentPost.share + 0
+            }
         )
-        if (sharedPost.sharedByMe) {
-            sharedPost.share++
-        }
         data.value = sharedPost
     }
-
-//    override fun likeColor() {
-//        val currentPost = data.value!!
-//
-//        val likedPost = currentPost.copy(
-//            likedByMe = !currentPost.likedByMe
-//        )
-//        if (likedPost.likedByMe) {
-//            R.drawable.ic_red_baseline_favorite_24
-//        } else {
-//            R.drawable.ic_baseline_favorite_border_24
-//        }
-//    }
-
-
 }
