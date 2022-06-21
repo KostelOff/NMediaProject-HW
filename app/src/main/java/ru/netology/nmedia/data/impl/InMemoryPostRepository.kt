@@ -1,41 +1,55 @@
 package ru.netology.nmedia.data.impl
 
-import android.annotation.SuppressLint
-import androidx.annotation.DrawableRes
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import ru.netology.nmedia.R
 import ru.netology.nmedia.data.PostRepository
-import ru.netology.nmedia.databinding.MyPostBinding
 import ru.netology.nmedia.post.Post
 
 class InMemoryPostRepository : PostRepository {
+    private var posts
+        get() = checkNotNull(data.value)
+        set(value) {
+            data.value = value
+        }
 
-    override val data = MutableLiveData(
-        Post(
-            0L, "Нетология. Университет интернет-профессий будущего",
-            "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее. Наша миссия — помочь встать на путь роста и начать цепочку перемен → http://netolo.gy/fyb",
-            "14.06.2022 г. в 14:00"
-        )
-    )
+    override val data: MutableLiveData<List<Post>>
 
-    override fun like() {
-        val currentPost = requireNotNull(data.value)
-
-        val likedPost = currentPost.copy(
-            likedByMe = !currentPost.likedByMe,
-            likes = if (currentPost.likedByMe) {
-                currentPost.likes - 1
-            } else {
-                currentPost.likes + 1
-            }
-        )
-        data.value = likedPost
+    init {
+        val initialPosts = List(100) { index ->
+            Post(
+                index + 1L, "Нетология. Университет интернет-профессий будущего",
+                "Контент № ${index + 1}",
+                "14.06.2022 г. в 14:00"
+            )
+        }
+        data = MutableLiveData(initialPosts)
     }
 
-    override fun share() {
-        val currentPost = requireNotNull(data.value)
-        val sharedPost = currentPost.copy(share = currentPost.share + 1)
-        data.value = sharedPost
+    override fun like(postId: Long) {
+        posts = posts.map { post ->
+            if (post.id == postId) {
+                post.copy(
+                    likedByMe = !post.likedByMe,
+                    likes = if (post.likedByMe) {
+                        post.likes - 1
+                    } else {
+                        post.likes + 1
+                    }
+                )
+            } else {
+                post
+            }
+        }
+        data.value = posts
+    }
+
+    override fun share(postId: Long) {
+        posts = posts.map { post ->
+            if (post.id == postId) {
+                post.copy(share = post.share + 1)
+            } else {
+                post
+            }
+        }
+        data.value = posts
     }
 }
