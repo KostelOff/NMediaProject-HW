@@ -2,8 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="12dp">
 
     <ImageView
@@ -63,7 +64,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textContent"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:ellipsize="end"
         app:layout_constraintTop_toBottomOf="@id/horizontal_barrier"
@@ -72,12 +73,12 @@
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/likeButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="4dp"
         android:background="#00000000"
         android:src="@drawable/ic_baseline_favorite_border_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/textContent" />
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -160,6 +161,7 @@
         android:layout_height="wrap_content"
         app:barrierDirection="top"
         app:constraint_referenced_ids="likeButton, comments, reply, eye"
+
         />
 
 
