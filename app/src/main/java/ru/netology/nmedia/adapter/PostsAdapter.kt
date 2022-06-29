@@ -2,6 +2,7 @@ package ru.netology.nmedia.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,16 +10,15 @@ import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.MyPostBinding
 import ru.netology.nmedia.post.Post
 
-
 class PostsAdapter(
-    private val onLikeClicked: (Post) -> Unit,
-    private val onShareClicked: (Post) -> Unit
-) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallBack) {
+    private val interactionListener: PostInteractionListener,
+
+    ) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallBack) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = MyPostBinding.inflate(inflater, parent, false)
-        return ViewHolder(binding, onLikeClicked, onShareClicked)
+        return ViewHolder(binding, interactionListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -28,17 +28,35 @@ class PostsAdapter(
 
     class ViewHolder(
         private val binding: MyPostBinding,
-        private val onLikeClicked: (Post) -> Unit,
-        private val onShareClicked: (Post) -> Unit
+        listener: PostInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private lateinit var post: Post
 
-        init {
-            binding.likeButton.setOnClickListener {
-                onLikeClicked(post)
+        private val popupMenu by lazy {
+            PopupMenu(itemView.context, binding.options).apply {
+                inflate(R.menu.options_post)
+                setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.remove -> {
+                            listener.onRemoveClicked(post)
+                            true
+                        }
+                        R.id.edit-> {
+                            listener.onEditClicked(post)
+                            true
+                        }
+                        else -> false
+                    }
+                }
             }
-            binding.reply.setOnClickListener { onShareClicked(post) }
+        }
+
+        init {
+            binding.likeIcon.setOnClickListener {
+                listener.onLikeClicked(post)
+            }
+            binding.shareIcon.setOnClickListener { listener.onShareClicked(post) }
         }
 
         fun bind(post: Post) {
@@ -48,18 +66,20 @@ class PostsAdapter(
                 authorName.text = post.author
                 date.text = post.published
                 textContent.text = post.content
-                countLikes.text = smartCount(post.likes)
-                countReply.text = smartCount(post.share)
+                likesCount.text = smartCount(post.likes)
+                shareCount.text = smartCount(post.share)
                 countComments.text = smartCount(post.countComment)
-                countEyes.text = smartCount(post.countEyesPost)
+                viewsCount.text = smartCount(post.countEyesPost)
 
-                likeButton.setImageResource(
+                likeIcon.setImageResource(
                     if (post.likedByMe) {
                         R.drawable.ic_red_baseline_favorite_24
                     } else {
                         R.drawable.ic_baseline_favorite_border_24
                     }
                 )
+
+                options.setOnClickListener { popupMenu.show() }
             }
         }
     }

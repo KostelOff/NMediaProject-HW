@@ -27,7 +27,7 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@id/date"
         app:layout_constraintEnd_toStartOf="@id/options"
-        app:layout_constraintStart_toEndOf="@+id/avatar"
+        app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="Нетология. Университет интернет-профессий" />
@@ -66,14 +66,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:ellipsize="end"
+
+        app:layout_constraintBottom_toTopOf="@id/likeIcon"
         app:layout_constraintTop_toBottomOf="@id/horizontal_barrier"
-        tools:text="@tools:sample/lorem/random" />
+        tools:text="Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу.
+        Затем появились курсы по дизайну, разработке, аналитике и управлению.
+        Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов.
+        Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее.
+        Наша миссия — помочь встать на путь роста и начать цепочку перемен → http://netolo.gy/fyb" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/likeButton"
+        android:id="@+id/likeIcon"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:background="#00000000"
         android:src="@drawable/ic_baseline_favorite_border_24"
@@ -82,14 +87,14 @@
 
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/countLikes"
+        android:id="@+id/likesCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:paddingTop="4dp"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@id/likeButton"
-        app:layout_constraintTop_toTopOf="@id/likeButton"
+        app:layout_constraintStart_toEndOf="@id/likeIcon"
+        app:layout_constraintTop_toTopOf="@id/lowerBarrier"
         tools:text="45" />
 
     <androidx.appcompat.widget.AppCompatImageButton
@@ -98,9 +103,9 @@
         android:layout_height="wrap_content"
         android:background="#00000000"
         android:src="@drawable/ic_baseline_chat_bubble_24"
-        app:layout_constraintEnd_toStartOf="@id/reply"
-        app:layout_constraintStart_toEndOf="@id/likeButton"
-        app:layout_constraintTop_toTopOf="@id/likeButton" />
+        app:layout_constraintEnd_toStartOf="@id/shareIcon"
+        app:layout_constraintStart_toEndOf="@id/likeIcon"
+        app:layout_constraintTop_toTopOf="@id/likeIcon" />
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -115,44 +120,44 @@
         tools:text="16" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/reply"
+        android:id="@+id/shareIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00000000"
         android:src="@drawable/ic_baseline_reply_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/likeButton" />
+        app:layout_constraintTop_toTopOf="@id/likeIcon" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/countReply"
+        android:id="@+id/shareCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:paddingTop="4dp"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@id/reply"
-        app:layout_constraintTop_toTopOf="@id/reply"
+        app:layout_constraintStart_toEndOf="@id/shareIcon"
+        app:layout_constraintTop_toTopOf="@id/shareIcon"
         tools:text="16" />
 
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/eye"
+        android:id="@+id/viewIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00000000"
         android:src="@drawable/ic_baseline_remove_red_eye_24"
-        app:layout_constraintEnd_toStartOf="@id/countEyes"
-        app:layout_constraintTop_toTopOf="@id/likeButton" />
+        app:layout_constraintEnd_toStartOf="@id/viewsCount"
+        app:layout_constraintTop_toTopOf="@id/likeIcon" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/countEyes"
+        android:id="@+id/viewsCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:paddingTop="4dp"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/eye"
+        app:layout_constraintTop_toTopOf="@id/viewIcon"
         tools:text="500" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -160,9 +165,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="top"
-        app:constraint_referenced_ids="likeButton, comments, reply, eye"
+        app:constraint_referenced_ids="likeIcon, comments, shareIcon, viewIcon" />
 
-        />
-
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrierLowerLower"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="likeIcon"
+        app:layout_constraintTop_toBottomOf="@id/likeIcon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
