@@ -49,7 +49,7 @@
         android:id="@+id/options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checkable="true"
+
         app:icon="@drawable/ic_options_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -95,6 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checkable="true"
+        android:layout_marginStart="4dp"
         app:icon="@drawable/ic_new_share_icon_button"
         app:layout_constraintBottom_toBottomOf="@id/barrierLowerLower"
         app:layout_constraintTop_toTopOf="@id/lowerBarrier"
@@ -106,10 +107,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00000000"
-        android:padding="4dp"
         android:src="@drawable/ic_baseline_chat_bubble_24"
         app:layout_constraintBottom_toBottomOf="@id/barrierLowerLower"
-
         app:layout_constraintStart_toEndOf="@id/likeIcon"
         app:layout_constraintTop_toTopOf="@id/likeIcon" />
 
@@ -117,7 +116,7 @@
         android:id="@+id/countComments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+android:layout_marginStart="4dp"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@id/comments"
         app:layout_constraintStart_toEndOf="@id/comments"
