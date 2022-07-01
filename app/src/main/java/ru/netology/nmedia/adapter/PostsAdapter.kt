@@ -42,7 +42,7 @@ class PostsAdapter(
                             listener.onRemoveClicked(post)
                             true
                         }
-                        R.id.edit-> {
+                        R.id.edit -> {
                             listener.onEditClicked(post)
                             true
                         }
@@ -57,6 +57,7 @@ class PostsAdapter(
                 listener.onLikeClicked(post)
             }
             binding.shareIcon.setOnClickListener { listener.onShareClicked(post) }
+            binding.options.setOnClickListener { popupMenu.show() }
         }
 
         fun bind(post: Post) {
@@ -66,20 +67,19 @@ class PostsAdapter(
                 authorName.text = post.author
                 date.text = post.published
                 textContent.text = post.content
-                likesCount.text = smartCount(post.likes)
-                shareCount.text = smartCount(post.share)
+                likeIcon.text = smartCount(post.likes)
+                shareIcon.text = smartCount(post.share)
                 countComments.text = smartCount(post.countComment)
                 viewsCount.text = smartCount(post.countEyesPost)
+                likeIcon.isChecked = post.likedByMe
 
-                likeIcon.setImageResource(
-                    if (post.likedByMe) {
-                        R.drawable.ic_red_baseline_favorite_24
-                    } else {
-                        R.drawable.ic_baseline_favorite_border_24
-                    }
-                )
-
-                options.setOnClickListener { popupMenu.show() }
+//                likeIcon.setButtonDrawable(
+//                    if (post.likedByMe) {
+//                        R.drawable.ic_red_baseline_favorite_24
+//                    } else {
+//                        R.drawable.ic_baseline_favorite_border_24
+//                    }
+//                )
             }
         }
     }
