@@ -8,7 +8,7 @@ data class Post(
     val likes: Int = 999,
     val likedByMe: Boolean = false,
     val share: Int = 997,
-
     val countComment: Int = 1_233,
-    val countEyesPost: Int = 12_333_000
+    val countEyesPost: Int = 12_333_000,
+    val video: String? = null
 )
