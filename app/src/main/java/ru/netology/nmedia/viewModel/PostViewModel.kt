@@ -55,6 +55,7 @@ class PostViewModel : ViewModel(), PostInteractionListener {
 
     override fun onEditClicked(post: Post) {
         currentPost.value = post
+        navigateToPostContentScreenEvent.value = post.content
     }
 
     override fun onPlayVideoClicked(post: Post) {
