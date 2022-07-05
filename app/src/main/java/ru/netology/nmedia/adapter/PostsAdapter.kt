@@ -3,6 +3,7 @@ package ru.netology.nmedia.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,8 +13,7 @@ import ru.netology.nmedia.post.Post
 
 class PostsAdapter(
     private val interactionListener: PostInteractionListener,
-
-    ) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallBack) {
+) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallBack) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -53,11 +53,11 @@ class PostsAdapter(
         }
 
         init {
-            binding.likeIcon.setOnClickListener {
-                listener.onLikeClicked(post)
-            }
+            binding.likeIcon.setOnClickListener { listener.onLikeClicked(post) }
             binding.shareIcon.setOnClickListener { listener.onShareClicked(post) }
             binding.options.setOnClickListener { popupMenu.show() }
+            binding.videoBanner.setOnClickListener { listener.onPlayVideoClicked(post) }
+            binding.playVideo.setOnClickListener { listener.onPlayVideoClicked(post) }
         }
 
         fun bind(post: Post) {
@@ -72,14 +72,7 @@ class PostsAdapter(
                 countComments.text = smartCount(post.countComment)
                 viewsCount.text = smartCount(post.countEyesPost)
                 likeIcon.isChecked = post.likedByMe
-
-//                likeIcon.setButtonDrawable(
-//                    if (post.likedByMe) {
-//                        R.drawable.ic_red_baseline_favorite_24
-//                    } else {
-//                        R.drawable.ic_baseline_favorite_border_24
-//                    }
-//                )
+                videoGroup.isVisible = post.video != null
             }
         }
     }
