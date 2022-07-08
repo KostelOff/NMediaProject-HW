@@ -22,11 +22,10 @@ internal class PostsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val post = getItem(position)
-        holder.bind(post)
+        holder.bind(getItem(position))
     }
 
-    class ViewHolder(
+    inner class ViewHolder(
         private val binding: MyPostBinding,
         listener: PostInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -58,6 +57,7 @@ internal class PostsAdapter(
             binding.options.setOnClickListener { popupMenu.show() }
             binding.videoBanner.setOnClickListener { listener.onPlayVideoClicked(post) }
             binding.playVideo.setOnClickListener { listener.onPlayVideoClicked(post) }
+            binding.root.setOnClickListener { listener.onPostClicked(post) }
         }
 
         fun bind(post: Post) {

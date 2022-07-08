@@ -4,12 +4,9 @@ import SingleLiveEvent
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import ru.netology.nmedia.adapter.PostInteractionListener
 import ru.netology.nmedia.data.PostRepository
 import ru.netology.nmedia.data.impl.FilePostRepository
-import ru.netology.nmedia.data.impl.InMemoryPostRepository
-import ru.netology.nmedia.data.impl.SharedPrefsPostRepository
 import ru.netology.nmedia.post.Post
 
 class PostViewModel(
@@ -20,13 +17,14 @@ class PostViewModel(
 
     val data by repository::data
 
-    val sharedPostContent = SingleLiveEvent<String>()
-
+    val sharePostContent = SingleLiveEvent<String>()
     val navigateToPostContentScreenEvent = SingleLiveEvent<String>()
+    val navigateToCurrentPostScreenEvent = SingleLiveEvent<Post>()
 
     val playVideo = SingleLiveEvent<String>()
 
     val currentPost = MutableLiveData<Post?>(null)
+
 
     fun onSaveButtonClicked(content: String) {
         if (content.isBlank()) return
@@ -37,7 +35,7 @@ class PostViewModel(
             id = PostRepository.NEW_POST_ID,
             author = "Sasha",
             content = content,
-            published = "Current date"
+            published = "Date"
         )
         repository.save(post)
         currentPost.value = null
@@ -47,10 +45,12 @@ class PostViewModel(
         navigateToPostContentScreenEvent.call()
     }
 
+    // region PostInteractionListener
+
     override fun onLikeClicked(post: Post) = repository.like(post.id)
 
     override fun onShareClicked(post: Post) {
-        sharedPostContent.value = post.content
+        sharePostContent.value = post.content
         repository.share(post.id)
     }
 
@@ -67,4 +67,10 @@ class PostViewModel(
         }
         playVideo.value = url
     }
+
+    override fun onPostClicked(post: Post) {
+        navigateToCurrentPostScreenEvent.value = post
+    }
+
+    // endregion PostInteractionListener
 }

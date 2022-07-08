@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:layout_height="match_parent"
+    tools:context=".ui.CurrentPostFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/currentPostFragmentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/common_spacing"
+        android:paddingTop="@dimen/common_spacing"
+        android:paddingRight="@dimen/common_spacing"
+        android:paddingBottom="36dp"/>
 
     <ImageView
         android:id="@+id/avatar"
@@ -46,12 +55,13 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/options"
-        style="@style/For_The_Options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:icon="@drawable/ic_options_24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/For_The_Options"
+        />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/horizontal_barrier"
@@ -80,9 +90,9 @@
         android:layout_height="wrap_content"
         android:checkable="true"
         app:icon="@drawable/ic_new_red_like_button"
-        app:layout_constraintBottom_toBottomOf="@id/barrierLowerLower"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lowerBarrier"
+        app:layout_constraintBottom_toBottomOf="@id/barrierLowerLower"
         tools:text="400" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -90,32 +100,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="video_banner" />
+        app:constraint_referenced_ids="video_banner"/>
 
     <View
         android:id="@+id/video_banner"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@drawable/image_video"
-        app:layout_constraintTop_toBottomOf="@id/barrierLowerLower" />
+        app:layout_constraintTop_toBottomOf="@id/textContent"/>
 
     <View
         android:id="@+id/play_video"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:background="@android:drawable/ic_media_play"
+        app:layout_constraintTop_toTopOf="@id/video_banner"
         app:layout_constraintBottom_toBottomOf="@id/video_banner"
-        app:layout_constraintEnd_toEndOf="@id/video_banner"
         app:layout_constraintStart_toStartOf="@id/video_banner"
-        app:layout_constraintTop_toTopOf="@id/video_banner" />
+        app:layout_constraintEnd_toEndOf="@id/video_banner"/>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/video_group"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:constraint_referenced_ids="video_banner, play_video"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        app:constraint_referenced_ids="video_banner, play_video"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/shareIcon"
@@ -125,8 +135,8 @@
         android:layout_marginStart="4dp"
         app:icon="@drawable/ic_new_share_icon_button"
         app:layout_constraintBottom_toBottomOf="@id/barrierLowerLower"
-        app:layout_constraintStart_toEndOf="@id/countComments"
         app:layout_constraintTop_toTopOf="@id/lowerBarrier"
+        app:layout_constraintStart_toEndOf="@id/countComments"
         tools:text="401" />
 
     <androidx.appcompat.widget.AppCompatImageButton
@@ -177,15 +187,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="top"
-        app:constraint_referenced_ids="likeIcon, comments, shareIcon, viewIcon"
-        app:layout_constraintTop_toBottomOf="@id/textContent" />
+        app:layout_constraintTop_toBottomOf="@id/textContent"
+        app:constraint_referenced_ids="likeIcon, comments, shareIcon, viewIcon" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrierLowerLower"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="likeIcon"
         app:layout_constraintTop_toBottomOf="@id/likeIcon" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

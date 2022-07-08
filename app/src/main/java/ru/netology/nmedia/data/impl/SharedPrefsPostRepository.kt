@@ -43,7 +43,6 @@ class SharedPrefsPostRepository(application: Application) : PostRepository {
         data = MutableLiveData(posts)
     }
 
-
     override fun like(postId: Long) {
         posts = posts.map {
             val likedOrNotCount =

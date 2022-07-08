@@ -6,9 +6,6 @@ import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import ru.netology.nmedia.data.PostRepository
 import ru.netology.nmedia.post.Post
 import kotlin.properties.Delegates
