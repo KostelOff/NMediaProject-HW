@@ -11,7 +11,7 @@ import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.MyPostBinding
 import ru.netology.nmedia.post.Post
 
-class PostsAdapter(
+internal class PostsAdapter(
     private val interactionListener: PostInteractionListener,
 ) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallBack) {
 

@@ -26,44 +26,35 @@ class InMemoryPostRepository : PostRepository {
                         "Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. " +
                         "Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее. " +
                         "Наша миссия — помочь встать на путь роста и начать цепочку перемен → http://netolo.gy/fyb",
-                "14.06.2022 г. в 14:00"
-             )
+                "14.06.2022 г. в 14:00",
+                        video = "https://www.youtube.com/watch?v=WhWc3b3KhnY"
+            )
         }
         data = MutableLiveData(initialPosts)
     }
 
     override fun like(postId: Long) {
-        posts = posts.map { post ->
-            if (post.id == postId) {
-                post.copy(
-                    likedByMe = !post.likedByMe,
-                    likes = if (post.likedByMe) {
-                        post.likes - 1
-                    } else {
-                        post.likes + 1
-                    }
-                )
-            } else {
-                post
-            }
+        data.value = posts.map {
+            val likedOrNotCount =
+                if (!it.likedByMe) it.likes + 1 else it.likes - 1
+            if (it.id != postId) it
+            else it.copy(
+                likedByMe = !it.likedByMe,
+                likes = likedOrNotCount
+            )
         }
-        data.value = posts
     }
 
     override fun share(postId: Long) {
-        posts = posts.map { post ->
-            if (post.id == postId) {
-                post.copy(share = post.share + 1)
-            } else {
-                post
-            }
+        data.value = posts.map {
+            val countShare = it.share + 1
+            if (it.id != postId) it
+            else it.copy(share = countShare)
         }
-        data.value = posts
     }
 
     override fun delete(postId: Long) {
-        posts = posts.filter { it.id != postId }
-        data.value = posts
+        data.value = posts.filterNot { it.id == postId }
     }
 
     override fun save(post: Post) {
@@ -71,7 +62,9 @@ class InMemoryPostRepository : PostRepository {
     }
 
     private fun insert(post: Post) {
-        data.value = listOf(post.copy(id = ++nextId)) + posts
+        data.value = listOf(
+            post.copy(id = ++nextId)
+        ) + posts
     }
 
     private fun update(post: Post) {
