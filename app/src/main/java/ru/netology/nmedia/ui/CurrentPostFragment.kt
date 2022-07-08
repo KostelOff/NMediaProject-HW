@@ -23,6 +23,7 @@ import ru.netology.nmedia.viewModel.PostViewModel
 class CurrentPostFragment : Fragment() {
 
     private val viewModel: PostViewModel by activityViewModels()
+
     private val args by navArgs<CurrentPostFragmentArgs>()
 
     private lateinit var currentPost: Post
@@ -49,7 +50,7 @@ class CurrentPostFragment : Fragment() {
 
 
                 viewModel.data.observe(viewLifecycleOwner) { listPost ->
-                    if (listPost.none { it.id == args.idCurrentPost } ) {
+                    if (listPost.none { it.id == args.idCurrentPost }) {
                         return@observe
                     }
                     currentPost = listPost.firstOrNull {
@@ -136,6 +137,8 @@ class CurrentPostFragment : Fragment() {
                 binding.options.setOnClickListener {
                     popupMenu.show()
                 }
+
+
             }
         }.root
     }

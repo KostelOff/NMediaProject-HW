@@ -45,8 +45,6 @@ class PostViewModel(
         navigateToPostContentScreenEvent.call()
     }
 
-    // region PostInteractionListener
-
     override fun onLikeClicked(post: Post) = repository.like(post.id)
 
     override fun onShareClicked(post: Post) {
@@ -71,6 +69,4 @@ class PostViewModel(
     override fun onPostClicked(post: Post) {
         navigateToCurrentPostScreenEvent.value = post
     }
-
-    // endregion PostInteractionListener
 }

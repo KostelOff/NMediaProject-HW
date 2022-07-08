@@ -12,7 +12,7 @@
             android:id="@+id/toPostContentFragment"
             app:destination="@id/postContentFragment" />
         <action
-            android:id="@+id/action_feedFragment_to_currentPostFragment"
+            android:id="@+id/toCurrentPostFragment"
             app:destination="@id/currentPostFragment" />
     </fragment>
     <fragment
@@ -31,9 +31,12 @@
         android:id="@+id/currentPostFragment"
         android:name="ru.netology.nmedia.ui.CurrentPostFragment"
         android:label="current_post_fragment"
-        tools:layout="@layout/current_post_fragment" >
+        tools:layout="@layout/current_post_fragment">
+        <argument
+            android:name="idCurrentPost"
+            app:argType="long" />
         <action
-            android:id="@+id/action_currentPostFragment_to_postContentFragment"
+            android:id="@+id/currentPostFragmentToPostContentFragment"
             app:destination="@id/postContentFragment" />
     </fragment>
 </navigation>
