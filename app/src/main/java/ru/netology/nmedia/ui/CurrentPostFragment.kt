@@ -137,8 +137,6 @@ class CurrentPostFragment : Fragment() {
                 binding.options.setOnClickListener {
                     popupMenu.show()
                 }
-
-
             }
         }.root
     }
