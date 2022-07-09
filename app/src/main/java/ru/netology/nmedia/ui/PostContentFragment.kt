@@ -53,8 +53,11 @@ class PostContentFragment : Fragment() {
     }
 
     companion object {
+
         const val REQUEST_FEED_KEY = "requestForFeedFragmentKey"
         const val REQUEST_CURRENT_POST_KEY = "requestForCurrentPostFragmentKey"
         const val RESULT_KEY = "postNewContent"
+
+
     }
 }

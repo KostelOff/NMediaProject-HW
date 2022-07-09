@@ -25,7 +25,6 @@ class PostViewModel(
 
     val currentPost = MutableLiveData<Post?>(null)
 
-
     fun onSaveButtonClicked(content: String) {
         if (content.isBlank()) return
 

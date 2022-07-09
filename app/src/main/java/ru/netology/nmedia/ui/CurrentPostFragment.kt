@@ -23,8 +23,8 @@ import ru.netology.nmedia.viewModel.PostViewModel
 class CurrentPostFragment : Fragment() {
 
     private val viewModel: PostViewModel by activityViewModels()
-
     private val args by navArgs<CurrentPostFragmentArgs>()
+
 
     private lateinit var currentPost: Post
 
@@ -50,7 +50,7 @@ class CurrentPostFragment : Fragment() {
 
 
                 viewModel.data.observe(viewLifecycleOwner) { listPost ->
-                    if (listPost.none { it.id == args.idCurrentPost }) {
+                    if (listPost.none { it.id == args.idCurrentPost } ) {
                         return@observe
                     }
                     currentPost = listPost.firstOrNull {
@@ -137,6 +137,8 @@ class CurrentPostFragment : Fragment() {
                 binding.options.setOnClickListener {
                     popupMenu.show()
                 }
+
+
             }
         }.root
     }
@@ -145,23 +147,40 @@ class CurrentPostFragment : Fragment() {
         authorName.text = post.author
         textContent.text = post.content
         date.text = post.published
-        likeIcon.text = smartCount(likeIcon.context, post.likes)
-        shareIcon.text = smartCount(shareIcon.context, post.share)
+        likeIcon.text = getTrueCount(likeIcon.context, post.likes)
+        shareIcon.text = getTrueCount(shareIcon.context, post.share)
         textContent.movementMethod = ScrollingMovementMethod()
         likeIcon.isChecked = post.likedByMe
         videoGroup.isVisible = post.video != null
     }
 
-    private fun smartCount(count1: Context, count: Int): String {
-        return when (count) {
-            in 1..999 -> "$count"
-            in 1_000..1_099 -> "${count / 1_000}K"
-            in 1_100..9_999 -> "${count / 1_000}.${count / 100 % 10}K"
-            in 10_000..999_999 -> "${count / 1_000}K"
-            in 1_000_000..1_099_999 -> "${count / 1_000_000}M"
-            in 1_100_000..99_999_999 -> "${count / 1_000_000}.${count / 100_000 % 10}M"
-            else -> ""
+    private fun getTrueCount(context: Context, count: Int): String {
+        if (count in 1000..10_000) {
+            val thousands = count / 1000
+            val afterPoint = (count % 1000) / 100
+            val text = String.format("%d,%d", thousands, afterPoint)
+
+            return if (afterPoint != 0) context.getString(
+                R.string.thousands,
+                text
+            ) else context.getString(R.string.thousands, thousands.toString())
         }
+
+        if (count in 10_001..999_999) {
+            val thousands = count / 1000
+            return context.getString(R.string.thousands, thousands.toString())
+        }
+
+        if (count >= 1_000_000) {
+            val millions = count / 1_000_000
+            val afterPoint = (count % 1_000_000) / 100_000
+            val text = String.format("%d,%d", millions, afterPoint)
+            return if (afterPoint != 0) context.getString(
+                R.string.million,
+                text
+            ) else context.getString(R.string.million, millions.toString())
+        }
+        return count.toString()
     }
 
 }
