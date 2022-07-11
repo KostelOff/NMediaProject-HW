@@ -6,32 +6,38 @@ import ru.netology.nmedia.post.Post
 
 class InMemoryPostRepository : PostRepository {
 
-    private var nextId = GENERATES_POST_AMOUNT.toLong()
+    private var nextId = GENERATED_POSTS_AMOUNT.toLong()
 
-    private var posts
-        get() = checkNotNull(data.value)
-        set(value) {
-            data.value = value
+    private val posts
+        get() = checkNotNull(data.value) {
+            "Data value should not be null"
         }
 
-    override val data: MutableLiveData<List<Post>>
-
-    init {
-        val initialPosts = List(100) { index ->
-            Post(
-                index + 1L, "Нетология. Университет интернет-профессий будущего",
-                "Контент № ${index + 1} : \n" +
-                        "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. " +
-                        "Затем появились курсы по дизайну, разработке, аналитике и управлению. " +
-                        "Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. " +
-                        "Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее. " +
-                        "Наша миссия — помочь встать на путь роста и начать цепочку перемен → http://netolo.gy/fyb",
-                "14.06.2022 г. в 14:00",
-                        video = "https://www.youtube.com/watch?v=WhWc3b3KhnY"
-            )
+    override val data = MutableLiveData(
+        List(GENERATED_POSTS_AMOUNT) { index ->
+            if (index == 1) {
+                Post(
+                    id = index + 1L,
+                    author = "Netology",
+                    content = "Content $index",
+                    published = "21.05.2022",
+                    likes = 999,
+                    shareCount = 999_999,
+                    video = "https://www.youtube.com/watch?v=WhWc3b3KhnY"
+                )
+            } else {
+                Post(
+                    id = index + 1L,
+                    author = "Netology",
+                    content = "Content $index",
+                    published = "21.05.2022",
+                    likes = 999,
+                    shareCount = 999_999
+                )
+            }
         }
-        data = MutableLiveData(initialPosts)
-    }
+
+    )
 
     override fun like(postId: Long) {
         data.value = posts.map {
@@ -43,14 +49,16 @@ class InMemoryPostRepository : PostRepository {
                 likes = likedOrNotCount
             )
         }
+
     }
 
     override fun share(postId: Long) {
         data.value = posts.map {
-            val countShare = it.share + 1
+            val countShare = it.shareCount + 1
             if (it.id != postId) it
-            else it.copy(share = countShare)
+            else it.copy(shareCount = countShare)
         }
+
     }
 
     override fun delete(postId: Long) {
@@ -60,6 +68,7 @@ class InMemoryPostRepository : PostRepository {
     override fun save(post: Post) {
         if (post.id == PostRepository.NEW_POST_ID) insert(post) else update(post)
     }
+
 
     private fun insert(post: Post) {
         data.value = listOf(
@@ -74,6 +83,8 @@ class InMemoryPostRepository : PostRepository {
     }
 
     private companion object {
-        const val GENERATES_POST_AMOUNT = 100
+        const val GENERATED_POSTS_AMOUNT = 100
     }
+
+
 }

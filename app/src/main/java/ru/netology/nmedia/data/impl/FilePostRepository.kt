@@ -6,9 +6,6 @@ import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import ru.netology.nmedia.data.PostRepository
 import ru.netology.nmedia.post.Post
 import kotlin.properties.Delegates
@@ -23,7 +20,6 @@ class FilePostRepository(
     private val prefs = application.getSharedPreferences(
         "repo", Context.MODE_PRIVATE
     )
-
     private var nextId: Long by Delegates.observable(
         prefs.getLong(NEXT_ID_PREFS_KEY, 0L)
     ) { _, _, newValue ->
@@ -31,9 +27,13 @@ class FilePostRepository(
     }
 
     private var posts
-        get() = checkNotNull(data.value)
+        get() = checkNotNull(data.value) {
+            "Data value should not be null"
+        }
         set(value) {
-            application.openFileOutput(FILE_NAME, Context.MODE_PRIVATE).bufferedWriter().use {
+            application.openFileOutput(
+                FILE_NAME, Context.MODE_PRIVATE
+            ).bufferedWriter().use {
                 it.write(gson.toJson(value))
             }
             data.value = value
@@ -46,10 +46,9 @@ class FilePostRepository(
         val posts: List<Post> = if (postsFile.exists()) {
             val inputStream = application.openFileInput(FILE_NAME)
             val reader = inputStream.bufferedReader()
-            reader.use {
-                gson.fromJson(it, type)
-            }
+            reader.use { gson.fromJson(it, type) }
         } else emptyList()
+
         data = MutableLiveData(posts)
     }
 
@@ -63,14 +62,16 @@ class FilePostRepository(
                 likes = likedOrNotCount
             )
         }
+
     }
 
     override fun share(postId: Long) {
         posts = posts.map {
-            val countShare = it.share + 1
+            val countShare = it.shareCount + 1
             if (it.id != postId) it
-            else it.copy(share = countShare)
+            else it.copy(shareCount = countShare)
         }
+
     }
 
     override fun delete(postId: Long) {
@@ -80,6 +81,7 @@ class FilePostRepository(
     override fun save(post: Post) {
         if (post.id == PostRepository.NEW_POST_ID) insert(post) else update(post)
     }
+
 
     private fun insert(post: Post) {
         posts = listOf(
@@ -97,4 +99,6 @@ class FilePostRepository(
         const val NEXT_ID_PREFS_KEY = "nextId"
         const val FILE_NAME = "posts.json"
     }
+
+
 }

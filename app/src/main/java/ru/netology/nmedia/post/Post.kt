@@ -8,10 +8,8 @@ data class Post(
     val author: String,
     val content: String,
     val published: String,
-    val likes: Int = 999,
+    val shareCount: Int = 0,
+    val likes: Int = 0,
     val likedByMe: Boolean = false,
-    val share: Int = 997,
-    val countComment: Int = 1_233,
-    val countEyesPost: Int = 12_333_000,
     val video: String? = null
 )
