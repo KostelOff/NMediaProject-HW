@@ -44,7 +44,6 @@ class FeedFragment : Fragment() {
             }
         }
 
-
         setFragmentResultListener(
             requestKey = PostContentFragment.REQUEST_FEED_KEY
         ) { requestKey, bundle ->
@@ -53,7 +52,6 @@ class FeedFragment : Fragment() {
                 PostContentFragment.RESULT_KEY
             ) ?: return@setFragmentResultListener
             viewModel.onSaveButtonClicked(newPostContent)
-
         }
 
         viewModel.navigateToPostContentScreenEvent.observe(this) { initialContent ->
@@ -88,5 +86,4 @@ class FeedFragment : Fragment() {
             viewModel.onAddClicked()
         }
     }.root
-
 }

@@ -25,7 +25,6 @@ class CurrentPostFragment : Fragment() {
     private val viewModel: PostViewModel by activityViewModels()
     private val args by navArgs<CurrentPostFragmentArgs>()
 
-
     private lateinit var currentPost: Post
 
     private val Fragment.packageManager
@@ -50,7 +49,7 @@ class CurrentPostFragment : Fragment() {
 
 
                 viewModel.data.observe(viewLifecycleOwner) { listPost ->
-                    if (listPost.none { it.id == args.idCurrentPost } ) {
+                    if (listPost.none { it.id == args.idCurrentPost }) {
                         return@observe
                     }
                     currentPost = listPost.firstOrNull {
@@ -148,7 +147,7 @@ class CurrentPostFragment : Fragment() {
         textContent.text = post.content
         date.text = post.published
         likeIcon.text = getTrueCount(likeIcon.context, post.likes)
-        shareIcon.text = getTrueCount(shareIcon.context, post.share)
+        shareIcon.text = getTrueCount(shareIcon.context, post.shareCount)
         textContent.movementMethod = ScrollingMovementMethod()
         likeIcon.isChecked = post.likedByMe
         videoGroup.isVisible = post.video != null
@@ -181,6 +180,4 @@ class CurrentPostFragment : Fragment() {
             ) else context.getString(R.string.million, millions.toString())
         }
         return count.toString()
-    }
-
-}
+    }}

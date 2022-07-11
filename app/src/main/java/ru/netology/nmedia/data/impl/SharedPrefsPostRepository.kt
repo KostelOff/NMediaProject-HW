@@ -11,12 +11,13 @@ import ru.netology.nmedia.data.PostRepository
 import ru.netology.nmedia.post.Post
 import kotlin.properties.Delegates
 
-class SharedPrefsPostRepository(application: Application) : PostRepository {
+class SharedPrefsPostRepository(
+    application: Application
+) : PostRepository {
 
     private val prefs = application.getSharedPreferences(
         "repo", Context.MODE_PRIVATE
     )
-
     private var nextId: Long by Delegates.observable(
         prefs.getLong(NEXT_ID_PREFS_KEY, 0L)
     ) { _, _, newValue ->
@@ -24,7 +25,9 @@ class SharedPrefsPostRepository(application: Application) : PostRepository {
     }
 
     private var posts
-        get() = checkNotNull(data.value)
+        get() = checkNotNull(data.value) {
+            "Data value should not be null"
+        }
         set(value) {
             prefs.edit {
                 val serializedPosts = Json.encodeToString(value)
@@ -57,9 +60,9 @@ class SharedPrefsPostRepository(application: Application) : PostRepository {
 
     override fun share(postId: Long) {
         posts = posts.map {
-            val countShare = it.share + 1
+            val countShare = it.shareCount + 1
             if (it.id != postId) it
-            else it.copy(share = countShare)
+            else it.copy(shareCount = countShare)
         }
     }
 

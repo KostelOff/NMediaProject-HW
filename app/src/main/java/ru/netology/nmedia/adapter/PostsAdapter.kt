@@ -1,5 +1,7 @@
 package ru.netology.nmedia.adapter
 
+
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
@@ -8,16 +10,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
-import ru.netology.nmedia.databinding.MyPostBinding
+import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.post.Post
 
+
 internal class PostsAdapter(
-    private val interactionListener: PostInteractionListener,
-) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallBack) {
+    private val interactionListener: PostInteractionListener
+) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = MyPostBinding.inflate(inflater, parent, false)
+        val binding = PostBinding.inflate(inflater, parent, false)
         return ViewHolder(binding, interactionListener)
     }
 
@@ -26,11 +29,12 @@ internal class PostsAdapter(
     }
 
     inner class ViewHolder(
-        private val binding: MyPostBinding,
+        private val binding: PostBinding,
         listener: PostInteractionListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private lateinit var post: Post
+
 
         private val popupMenu by lazy {
             PopupMenu(itemView.context, binding.options).apply {
@@ -43,6 +47,7 @@ internal class PostsAdapter(
                         }
                         R.id.edit -> {
                             listener.onEditClicked(post)
+
                             true
                         }
                         else -> false
@@ -54,10 +59,15 @@ internal class PostsAdapter(
         init {
             binding.likeIcon.setOnClickListener { listener.onLikeClicked(post) }
             binding.shareIcon.setOnClickListener { listener.onShareClicked(post) }
+            binding.videoBanner.setOnClickListener {
+                listener.onPlayVideoClicked(post)
+            }
+            binding.playVideo.setOnClickListener {
+                listener.onPlayVideoClicked(post)
+            }
             binding.options.setOnClickListener { popupMenu.show() }
-            binding.videoBanner.setOnClickListener { listener.onPlayVideoClicked(post) }
-            binding.playVideo.setOnClickListener { listener.onPlayVideoClicked(post) }
             binding.root.setOnClickListener { listener.onPostClicked(post) }
+
         }
 
         fun bind(post: Post) {
@@ -65,35 +75,51 @@ internal class PostsAdapter(
 
             with(binding) {
                 authorName.text = post.author
-                date.text = post.published
                 textContent.text = post.content
-                likeIcon.text = smartCount(post.likes)
-                shareIcon.text = smartCount(post.share)
-                countComments.text = smartCount(post.countComment)
-                viewsCount.text = smartCount(post.countEyesPost)
+                date.text = post.published
+                likeIcon.text = getTrueCount(likeIcon.context, post.likes)
+                shareIcon.text = getTrueCount(shareIcon.context, post.shareCount)
                 likeIcon.isChecked = post.likedByMe
                 videoGroup.isVisible = post.video != null
             }
         }
+
+        private fun getTrueCount(context: Context, count: Int): String {
+            if (count in 1000..10_000) {
+                val thousands = count / 1000
+                val afterPoint = (count % 1000) / 100
+                val text = String.format("%d,%d", thousands, afterPoint)
+
+                return if (afterPoint != 0) context.getString(
+                    R.string.thousands,
+                    text
+                ) else context.getString(R.string.thousands, thousands.toString())
+            }
+
+            if (count in 10_001..999_999) {
+                val thousands = count / 1000
+                return context.getString(R.string.thousands, thousands.toString())
+            }
+
+            if (count >= 1_000_000) {
+                val millions = count / 1_000_000
+                val afterPoint = (count % 1_000_000) / 100_000
+                val text = String.format("%d,%d", millions, afterPoint)
+                return if (afterPoint != 0) context.getString(
+                    R.string.million,
+                    text
+                ) else context.getString(R.string.million, millions.toString())
+            }
+            return count.toString()
+        }
     }
 
-    private object DiffCallBack : DiffUtil.ItemCallback<Post>() {
+    private object DiffCallback : DiffUtil.ItemCallback<Post>() {
         override fun areItemsTheSame(oldItem: Post, newItem: Post) =
             oldItem.id == newItem.id
 
+
         override fun areContentsTheSame(oldItem: Post, newItem: Post) =
             oldItem == newItem
-    }
-}
-
-private fun smartCount(count: Int): String {
-    return when (count) {
-        in 1..999 -> "$count"
-        in 1_000..1_099 -> "${count / 1_000}K"
-        in 1_100..9_999 -> "${count / 1_000}.${count / 100 % 10}K"
-        in 10_000..999_999 -> "${count / 1_000}K"
-        in 1_000_000..1_099_999 -> "${count / 1_000_000}M"
-        in 1_100_000..99_999_999 -> "${count / 1_000_000}.${count / 100_000 % 10}M"
-        else -> ""
     }
 }
