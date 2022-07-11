@@ -40,14 +40,6 @@ class CurrentPostFragment : Fragment() {
         ).also { binding ->
             with(binding) {
 
-                currentPost = viewModel.data.value?.let { listPost ->
-                    listPost.firstOrNull {
-                        it.id == args.idCurrentPost
-                    }
-                } as Post
-                render(currentPost)
-
-
                 viewModel.data.observe(viewLifecycleOwner) { listPost ->
                     if (listPost.none { it.id == args.idCurrentPost }) {
                         return@observe
