@@ -6,14 +6,19 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.adapter.PostInteractionListener
 import ru.netology.nmedia.data.PostRepository
-import ru.netology.nmedia.data.impl.FilePostRepository
+import ru.netology.nmedia.data.impl.SQLiteRepository
+import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.post.Post
 
 class PostViewModel(
     application: Application
 ) : AndroidViewModel(application), PostInteractionListener {
 
-    private val repository: PostRepository = FilePostRepository(application)
+    private val repository: PostRepository = SQLiteRepository(
+        dao = AppDb.getInstance(
+            context = application
+        ).postDao
+    )
 
     val data by repository::data
 
@@ -45,6 +50,8 @@ class PostViewModel(
         navigateToPostContentScreenEvent.call()
     }
 
+    // region PostInteractionListener
+
     override fun onLikeClicked(post: Post) = repository.like(post.id)
 
     override fun onShareClicked(post: Post) {
@@ -70,4 +77,5 @@ class PostViewModel(
         navigateToCurrentPostScreenEvent.value = post
     }
 
+    // endregion PostInteractionListener
 }

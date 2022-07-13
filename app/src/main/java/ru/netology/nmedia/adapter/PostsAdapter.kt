@@ -1,6 +1,5 @@
 package ru.netology.nmedia.adapter
 
-
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.post.Post
-
 
 internal class PostsAdapter(
     private val interactionListener: PostInteractionListener
@@ -80,7 +78,8 @@ internal class PostsAdapter(
                 likeIcon.text = getTrueCount(likeIcon.context, post.likes)
                 shareIcon.text = getTrueCount(shareIcon.context, post.shareCount)
                 likeIcon.isChecked = post.likedByMe
-                videoGroup.isVisible = post.video != null
+                videoGroup.isVisible = !post.video.isNullOrBlank()
+                //videoGroup.isVisible = post.video != ""
             }
         }
 

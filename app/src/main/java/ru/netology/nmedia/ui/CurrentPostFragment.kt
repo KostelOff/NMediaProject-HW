@@ -40,6 +40,14 @@ class CurrentPostFragment : Fragment() {
         ).also { binding ->
             with(binding) {
 
+                currentPost = viewModel.data.value?.let { listPost ->
+                    listPost.firstOrNull {
+                        it.id == args.idCurrentPost
+                    }
+                } as Post
+                render(currentPost)
+
+
                 viewModel.data.observe(viewLifecycleOwner) { listPost ->
                     if (listPost.none { it.id == args.idCurrentPost }) {
                         return@observe
@@ -142,7 +150,7 @@ class CurrentPostFragment : Fragment() {
         shareIcon.text = getTrueCount(shareIcon.context, post.shareCount)
         textContent.movementMethod = ScrollingMovementMethod()
         likeIcon.isChecked = post.likedByMe
-        videoGroup.isVisible = post.video != null
+        videoGroup.isVisible = !post.video.isNullOrBlank()
     }
 
     private fun getTrueCount(context: Context, count: Int): String {
@@ -172,4 +180,5 @@ class CurrentPostFragment : Fragment() {
             ) else context.getString(R.string.million, millions.toString())
         }
         return count.toString()
-    }}
+    }
+}
