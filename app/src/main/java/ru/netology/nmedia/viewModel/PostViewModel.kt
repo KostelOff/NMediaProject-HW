@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.adapter.PostInteractionListener
 import ru.netology.nmedia.data.PostRepository
-import ru.netology.nmedia.data.impl.SQLiteRepository
+import ru.netology.nmedia.data.impl.PostRepositoryImpl
 import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.post.Post
 
@@ -14,7 +14,7 @@ class PostViewModel(
     application: Application
 ) : AndroidViewModel(application), PostInteractionListener {
 
-    private val repository: PostRepository = SQLiteRepository(
+    private val repository: PostRepository = PostRepositoryImpl(
         dao = AppDb.getInstance(
             context = application
         ).postDao
@@ -26,6 +26,9 @@ class PostViewModel(
     val navigateToPostContentScreenEvent = SingleLiveEvent<String>()
     val navigateToCurrentPostScreenEvent = SingleLiveEvent<Post>()
 
+    /**
+     * The event value contains the video's url for the play
+     */
     val playVideo = SingleLiveEvent<String>()
 
     val currentPost = MutableLiveData<Post?>(null)

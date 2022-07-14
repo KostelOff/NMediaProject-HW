@@ -1,5 +1,6 @@
 package ru.netology.nmedia.adapter
 
+
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostBinding
 import ru.netology.nmedia.post.Post
+
 
 internal class PostsAdapter(
     private val interactionListener: PostInteractionListener
@@ -111,7 +113,10 @@ internal class PostsAdapter(
             }
             return count.toString()
         }
+
+
     }
+
 
     private object DiffCallback : DiffUtil.ItemCallback<Post>() {
         override fun areItemsTheSame(oldItem: Post, newItem: Post) =
@@ -120,5 +125,8 @@ internal class PostsAdapter(
 
         override fun areContentsTheSame(oldItem: Post, newItem: Post) =
             oldItem == newItem
+
     }
+
+
 }
